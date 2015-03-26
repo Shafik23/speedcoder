@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.1
+import QtQuick.Controls.Styles 1.1
 import GoExtensions 1.0
 
 Rectangle {
@@ -8,21 +9,58 @@ Rectangle {
    color: "black"
 
    TextArea {
+      id: textArea
       width: parent.width * 0.9
       height: parent.height *0.9
       anchors.centerIn: parent
+      focus: true
 
-      backgroundVisible: false
+      property var typedIndex: 0
+
+      backgroundVisible: true
+      selectByMouse: false
       readOnly: true
 
-      font.family: "Helvetica"
-      font.pointSize: 20
-      textColor: "green"
+      style: TextAreaStyle {
+         textColor: "darkgrey"
+         selectionColor: "black"
+         selectedTextColor: "lightgreen"
+         backgroundColor: "black"
+      }
+
+      font.family: "Monospace"
+      font.pointSize: 16
+      font.bold: false
+      textMargin: 15
+
       text: snippet.code
 
       Snippet {
          id: snippet
       }
+
+      function keyStrokeMatches(input, snippet_code_char) {
+         // if either key or snippet char is 10 and the other is 13, consider it a match
+         // this makes carriage returns match newlines
+         if (input.charCodeAt(0) === 10 && snippet_code_char.charCodeAt(0) === 13 ||
+             input.charCodeAt(0) === 13 && snippet_code_char.charCodeAt(0) === 10) {
+            return true;
+         }
+
+         // if the input is the Esc key, match it so the user can just skip ahead
+         if (input.charCodeAt(0) === 27) return true;
+
+         return input === snippet_code_char;
+      }
+
+      Keys.onPressed: {
+         if (keyStrokeMatches(event.text, textArea.text[typedIndex])) {
+            typedIndex = typedIndex + 1
+         }
+
+         textArea.select(0, typedIndex)
+      }
+
       /*
        Gopher {
 
