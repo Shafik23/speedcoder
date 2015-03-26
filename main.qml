@@ -23,8 +23,8 @@ Rectangle {
 
       style: TextAreaStyle {
          textColor: "darkgrey"
-         selectionColor: "black"
-         selectedTextColor: "lightgreen"
+         selectionColor: "navy"
+         selectedTextColor: "yellow"
          backgroundColor: "black"
       }
 
@@ -56,6 +56,12 @@ Rectangle {
       Keys.onPressed: {
          if (keyStrokeMatches(event.text, textArea.text[typedIndex])) {
             typedIndex = typedIndex + 1
+         }
+
+         // if the key is Esc, fast forward the typedIndex. Usually the user
+         // will skip through boring code comments this way.
+         if (event.key === Qt.Key_Escape) {
+            typedIndex = typedIndex + 10
          }
 
          textArea.select(0, typedIndex)

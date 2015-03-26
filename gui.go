@@ -27,7 +27,7 @@ func run() error {
 		Init: func(sm *Snippet, obj qml.Object) {
 			sm.Object = obj
 
-			sm.Code = fetcher.GetCodeSnippet("socket", "python", 200, 300)
+			sm.Code = fetcher.GetCodeSnippet("net", "java", 200, 300)
 		},
 	}})
 
