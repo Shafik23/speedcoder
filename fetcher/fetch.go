@@ -20,6 +20,7 @@ func GetCodeSnippet(keyword string, lang string, min_loc int, max_loc int) strin
 	url := fmt.Sprintf(codesearch_url_template, keyword, lang, min_loc, max_loc)
 	url = strings.Replace(url, " ", "%20", -1)
 
+	fmt.Printf("Language is %s, Keyword is %s\n", lang, keyword)
 	fmt.Println("Reading from: ", url)
 
 	if resp, err := http.Get(url); err == nil {

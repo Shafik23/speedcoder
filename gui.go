@@ -8,15 +8,17 @@ import (
 	"os"
 )
 
-var filename = "main.qml"
+var qmlFile = "main.qml"
+var keyword string
+var language string
 
-func GuiMain() {
-	if len(os.Args) == 2 {
-		filename = os.Args[1]
-	}
+func GuiMain(lang string, keyw string) {
+	keyword = keyw
+	language = lang
+
 	if err := qml.Run(run); err != nil {
 		fmt.Fprintf(os.Stderr, "error: %v\n", err)
-		os.Exit(1)
+		os.Exit(2)
 	}
 }
 
@@ -24,14 +26,13 @@ func run() error {
 	engine := qml.NewEngine()
 
 	qml.RegisterTypes("GoExtensions", 1, 0, []qml.TypeSpec{{
-		Init: func(sm *Snippet, obj qml.Object) {
-			sm.Object = obj
-
-			sm.Code = fetcher.GetCodeSnippet("net", "java", 200, 300)
+		Init: func(snip *Snippet, obj qml.Object) {
+			snip.Object = obj
+			snip.Code = fetcher.GetCodeSnippet(keyword, language, 200, 300)
 		},
 	}})
 
-	component, err := engine.LoadFile(filename)
+	component, err := engine.LoadFile(qmlFile)
 	if err != nil {
 		return err
 	}
@@ -46,7 +47,6 @@ func run() error {
 
 type Snippet struct {
 	qml.Object
-
 	Code string
 }
 
