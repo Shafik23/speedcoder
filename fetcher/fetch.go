@@ -7,7 +7,8 @@ import (
 	"math/rand"
 	"net/http"
 	"strings"
-	//"github.com/davecgh/go-spew/spew"
+	"appengine"
+	"appengine/urlfetch"
 )
 
 const (
@@ -16,14 +17,18 @@ const (
 
 // Given a keyword, a programming language, and a min/max loc, returns
 // a random code snippet fitting the input criteria from searchcode.com
-func GetCodeSnippet(keyword string, lang string, min_loc int, max_loc int) string {
+func GetCodeSnippet(req *http.Request, keyword string, lang string, min_loc int, max_loc int) string {
+	fmt.Println("TOP")
+	c := appengine.NewContext(req)
+	client := urlfetch.Client(c)
+
 	url := fmt.Sprintf(codesearch_url_template, keyword, lang, min_loc, max_loc)
 	url = strings.Replace(url, " ", "%20", -1)
 
 	fmt.Printf("Language is %s, Keyword is %s\n", lang, keyword)
 	fmt.Println("Reading from: ", url)
 
-	if resp, err := http.Get(url); err == nil {
+	if resp, err := client.Get(url); err == nil {
 		defer resp.Body.Close()
 		body, _ := ioutil.ReadAll(resp.Body)
 
@@ -35,12 +40,12 @@ func GetCodeSnippet(keyword string, lang string, min_loc int, max_loc int) strin
 		result := results[rand.Intn(len(results))].(map[string]interface{})
 		snippet_url := strings.Replace(result["url"].(string), "view", "raw", -1)
 
-		resp, err = http.Get(snippet_url)
+		resp, err = client.Get(snippet_url)
 		defer resp.Body.Close()
 
 		snippet, _ := ioutil.ReadAll(resp.Body)
 		return string(snippet)
 	} else {
-		return "GetCodeSnippet Error - http.Get() could not GET"
+		return fmt.Sprintf("GetCodeSnippet Error - http.Get() could not GET: %s", err.Error())
 	}
 }
