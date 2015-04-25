@@ -1,15 +1,36 @@
 package speedcoder
 
 import (
-	"fmt"
-	"net/http"
 	"fetcher"
+	"fmt"
+	"io/ioutil"
+	"net/http"
 )
 
 func init() {
-	http.HandleFunc("/", handler)
+	http.HandleFunc("/snippet/", snippetHandler)
+
+	http.HandleFunc("/scripts/", scriptsHandler)
+	http.HandleFunc("/", homeHandler)
 }
 
-func handler(w http.ResponseWriter, r *http.Request) {
+func snippetHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, fetcher.GetCodeSnippet(r, "json", "python", 200, 300))
+}
+
+func homeHandler(w http.ResponseWriter, r *http.Request) {
+	dumpFileRaw(w, "gui.html")
+}
+
+func scriptsHandler(w http.ResponseWriter, r *http.Request) {
+	dumpFileRaw(w, r.URL.Path[1:])
+}
+
+func dumpFileRaw(w http.ResponseWriter, file string) {
+	data, err := ioutil.ReadFile(file)
+	if err == nil {
+		fmt.Fprintf(w, string(data))
+	} else {
+		fmt.Fprintf(w, "Could not find page: %q", file)
+	}
 }
