@@ -8,20 +8,21 @@ html {
 body {
    display: table-cell;
    vertical-align: middle;
-	font-family: "Bitstream Vera Sans",Verdana,Arial,Helvetica,Sans,"Bitstream Vera Serif";
-	font-size: 1em;
 	color: #feffb7;
 	background: #000000; 
 }
 
-textarea {
+#codeSnippetArea {
    resize: none;
    text-align: left;
 	font-family: "Bitstream Vera Sans",Verdana,Arial,Helvetica,Sans,"Bitstream Vera Serif";
-	font-size: 1em;
+	font-size: 1.4em;
 	background: #000000;
 	color: #feffb7;
+
+   /* pointer-events: none; */
 }
+
 
 /*
 a {
