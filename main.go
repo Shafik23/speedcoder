@@ -4,7 +4,9 @@ import (
 	"fetcher"
 	"fmt"
 	"io/ioutil"
+	"math/rand"
 	"net/http"
+	"time"
 )
 
 func init() {
@@ -12,6 +14,9 @@ func init() {
 
 	http.HandleFunc("/scripts/", scriptsHandler)
 	http.HandleFunc("/", homeHandler)
+
+	// seed the RNG correctly
+	rand.Seed(time.Now().UTC().UnixNano())
 }
 
 func snippetHandler(w http.ResponseWriter, r *http.Request) {
