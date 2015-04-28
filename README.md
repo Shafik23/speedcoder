@@ -1,10 +1,9 @@
 # speedcoder
-A utility for improving your coding speed by typing out random code snippets.
+This is a complete Google AppEngine website, built using Go (the language).
+
+The idea behind this site is simple: improve your coding skills by simply typing out random code snippets of a language
+of your choosing. 
 
 
 # Dependencies:
-1. Go
-2. go-qml
-  * If you are on Ubuntu/Xubuntu, install the "ubuntu-sdk" package.
-   * You will also need the following two packages (from apt-get): qtbase5-private-dev qtdeclarative5-private-dev 
-  * see here: https://github.com/go-qml/qml.
+1. GoAppEngine: https://cloud.google.com/appengine/docs/go/
