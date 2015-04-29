@@ -10,9 +10,12 @@ function loadCodeSnippet() {
    snippetBox.__cursorPos = 0;
 
    // grab a raw-text code snippet
-   snippetBox.value = httpGet("/snippet");
-   snippetBox.focus();
-   snippetBox.scrollTop = 0;
+   snippetBox.value = "Please wait while we fetch your code snippet ...";
+   httpGetAsync("/snippet", function(response) {
+      snippetBox.value = response;
+      snippetBox.focus();
+      snippetBox.scrollTop = 0;
+   });
 
    snippetBox.onkeypress = function() {
       snippetBox.__cursorPos = snippetBox.__cursorPos + 1;
@@ -20,11 +23,11 @@ function loadCodeSnippet() {
    };
 }
 
-function httpGet(url) {
+function httpGetAsync(url, func) {
     var xmlHttp = null;
 
     xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", url, false);
+    xmlHttp.open("GET", url, true);
+    xmlHttp.onload = function(e) {func(xmlHttp.responseText)};
     xmlHttp.send(null);
-    return xmlHttp.responseText;
 }

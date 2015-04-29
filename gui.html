@@ -3,12 +3,31 @@
       <script src="scripts/gui.js"></script>
       <link rel="stylesheet" href="scripts/gui.css">
 
-      <body onload="loadCodeSnippet()"> 
+      <body onload=""> 
          <div id="codeSnippetDiv">
             <textarea id="codeSnippetArea" rows="25" cols="90" readonly>
-               Code snippet will load here.
+               Choose a language and a keyword and hit Go!
             </textarea>
          </div>
+
+         <br><br>
+
+         <form name="paramForm">
+            Language:
+            <select class="styled-form">
+               <option value="python">Python</option>
+               <option value="java">Java</option>
+               <option value="javascript">JavaScript</option>
+               <option value="clojure">Clojure</option>
+               <option value="c">C</option>
+               <option value="cpp">C++</option>
+            </select>
+
+            Keywords:
+            <input class="styled-form" type="search" name="keywords"/>
+            <input class="styled-button" type="button" value="       Go!       " onclick="loadCodeSnippet()"/>
+            
+         </form>
       </body>
 
    </head>
