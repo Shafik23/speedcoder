@@ -10,17 +10,23 @@ function loadCodeSnippet() {
    snippetBox.__cursorPos = 0;
 
    // grab a raw-text code snippet
+   setGoButtonState(false);
    snippetBox.value = "Please wait while we fetch your code snippet ...";
    httpGetAsync("/snippet", function(response) {
       snippetBox.value = response;
       snippetBox.focus();
       snippetBox.scrollTop = 0;
+      setGoButtonState(true);
    });
 
    snippetBox.onkeypress = function() {
       snippetBox.__cursorPos = snippetBox.__cursorPos + 1;
       snippetBox.setSelectionRange(0, snippetBox.__cursorPos);
    };
+}
+
+function setGoButtonState(flag) {
+   document.getElementById("GoButton").disabled = !flag;
 }
 
 function httpGetAsync(url, func) {
