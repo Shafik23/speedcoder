@@ -37,6 +37,10 @@ func GetCodeSnippet(req *http.Request, keyword string, lang string, min_loc int,
 		json_map := f.(map[string]interface{})
 		results := json_map["results"].([]interface{})
 
+		if len(results) == 0 {
+			return fmt.Sprintf("Could not find code snippet for language: %q and keyword(s) %q\n", lang, keyword);
+		}
+
 		result := results[rand.Intn(len(results))].(map[string]interface{})
 		snippet_url := strings.Replace(result["url"].(string), "view", "raw", -1)
 

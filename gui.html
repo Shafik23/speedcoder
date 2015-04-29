@@ -5,15 +5,14 @@
 
       <body onload=""> 
          <div id="codeSnippetDiv">
-            <textarea id="codeSnippetArea" rows="25" cols="90" readonly>
-               Choose a language and a keyword and hit Go!
+            <textarea id="codeSnippetArea" rows="25" cols="90" readonly> Choose a language and keyword(s) and hit Go!
             </textarea>
          </div>
 
          <br><br>
 
          <form name="paramForm">
-            Language:
+            Language: &nbsp
             <select class="styled-form">
                <option value="python">Python</option>
                <option value="java">Java</option>
@@ -23,9 +22,11 @@
                <option value="cpp">C++</option>
             </select>
 
-            Keywords:
-            <input class="styled-form" type="search" name="keywords"/>
-            <input id="GoButton" class="styled-button" type="button" value="       Go!       " onclick="loadCodeSnippet()"/>
+            &nbsp Keywords: &nbsp
+            <input class="styled-form" type="search" onkeydown="if (event.keyCode == 13) {return false;}" />
+            &nbsp &nbsp
+            <input id="GoButton" class="styled-button" type="button" value="       Go!       " 
+                   onclick="loadCodeSnippet()"/>
             
          </form>
       </body>

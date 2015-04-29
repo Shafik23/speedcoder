@@ -21,9 +21,10 @@ body {
 	font-size: 1.2em;
 	background: #000000;
 	color: #999999;
-
-   /* pointer-events: none; */
 }
+#codeSnippetArea::selection { background:#888888; color:#39ff30; }
+#codeSnippetArea::-moz-selection { background:#888888; color:#39ff30; }
+#codeSnippetArea::-webkit-selection { background:#888888; color:#39ff30; }
 
 .styled-form {
 	background:#999999;

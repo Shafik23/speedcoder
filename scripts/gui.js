@@ -19,16 +19,24 @@ function loadCodeSnippet() {
       setGoButtonState(true);
    });
 
-   snippetBox.onkeypress = function() {
+   snippetBox.onkeypress = function(e) {
       snippetBox.__cursorPos = snippetBox.__cursorPos + 1;
-      snippetBox.setSelectionRange(0, snippetBox.__cursorPos);
+      snippetBox.onfocus();
    };
+
+   snippetBox.onfocus = function() {
+      snippetBox.setSelectionRange(0, snippetBox.__cursorPos);
+   }
 }
 
 function setGoButtonState(flag) {
    document.getElementById("GoButton").disabled = !flag;
 }
 
+/**
+ * Performs an async XMLHttpRequest, calling func on the 
+ * response once it's available.
+ */
 function httpGetAsync(url, func) {
     var xmlHttp = null;
 
