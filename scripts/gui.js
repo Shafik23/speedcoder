@@ -1,7 +1,7 @@
 function loadCodeSnippet() {
    var snippetBox = document.getElementById("codeSnippetArea");
 
-   // selectionStart and selectionEnd are mutable by the user, so
+   // SelectionStart and selectionEnd are mutable by the user, so
    // we'll use our own property to keep track of where the
    // user is.
    // __ is the prefix used for the property since we're technically not 
@@ -9,28 +9,41 @@ function loadCodeSnippet() {
    // anyways).
    snippetBox.__cursorPos = 0;
 
-   // grab a raw-text code snippet
+   // Grab a raw-text code snippet.
    setGoButtonState(false);
    snippetBox.value = "Please wait while we fetch your code snippet ...";
    httpGetAsync("/snippet", function(response) {
       snippetBox.value = response;
       snippetBox.focus();
       snippetBox.scrollTop = 0;
+      console.log("Scroll height: " + snippetBox.scrollHeight);
       setGoButtonState(true);
    });
 
-   // convenience function
-   var advance = function(n) {snippetBox.__cursorPos = snippetBox.__cursorPos + n;} ;
+   // Convenience function.
+   var advance = function(n) {
+      for (var i = 0; i < n; i++) {
+         currentCharCode = snippetBox.value.charCodeAt(snippetBox.__cursorPos);
+
+         // if we match a newline or CR, advance the scroll bar
+         if (currentCharCode === 13 || currentCharCode === 10) {
+            snippetBox.scrollTop = snippetBox.scrollTop + 20;
+         }
+
+         snippetBox.__cursorPos = snippetBox.__cursorPos + 1;
+      }
+   };
 
    snippetBox.onkeypress = function(event) {
       var currentCharCode = snippetBox.value.charCodeAt(snippetBox.__cursorPos);
 
-      // only advance the cursor if the user types the correct character
+      // Only advance the cursor if the user types the correct character.
       if (currentCharCode === event.charCode) {
          advance(1);
       }
 
-      // line-feeds and carriage returns are considered the same
+      // Line-feeds and carriage returns are considered the same.
+      // Scroll the window to the bottom as well.
       if (currentCharCode === 10 && event.charCode === 13 ||
             currentCharCode === 13 && event.charCode === 10) {
          advance(1);
@@ -40,12 +53,12 @@ function loadCodeSnippet() {
       return false;
    };
 
-   // keydown is necessary (vs keypress) in order to detect special keys
-   // like ESC
+   // Keydown is necessary (vs keypress) in order to detect special keys
+   // like ESC.
    snippetBox.onkeydown = function(event) {
-      // if the user presses the ESC key, they can "bypass" chunks of displayed
+      // If the user presses the ESC key, they can "bypass" chunks of displayed
       // code quickly. This comes in handy when going through boring code comments,
-      // for example
+      // for example.
       if (event.keyCode === 27) {
          advance(5);
          snippetBox.onfocus();
