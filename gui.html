@@ -13,7 +13,7 @@
 
          <form name="paramForm">
             Language: &nbsp
-            <select class="styled-form">
+            <select id="langSelectMenu" class="styled-form">
                <option value="python">Python</option>
                <option value="java">Java</option>
                <option value="javascript">JavaScript</option>
@@ -23,9 +23,9 @@
             </select>
 
             &nbsp Keyword(s): &nbsp
-            <input class="styled-form" type="search" onkeydown="if (event.keyCode == 13) {return false;}" />
+            <input id="keywordInput" class="styled-form" type="search" onkeydown="if (event.keyCode == 13) {return false;}" />
             &nbsp &nbsp
-            <input id="GoButton" class="styled-button" type="button" value="       Go!       " 
+            <input id="goButton" class="styled-button" type="button" value="       Go!       " 
                    onclick="loadCodeSnippet()"/>
             
          </form>

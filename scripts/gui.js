@@ -12,27 +12,42 @@ function loadCodeSnippet() {
    // Grab a raw-text code snippet.
    setGoButtonState(false);
    snippetBox.value = "Please wait while we fetch your code snippet ...";
+
+   var url = "/snippet?lang=" + document.getElementById("langSelectMenu").value +
+             "&keyword=" + document.getElementById("keywordInput").value;
+   url = encodeURI(url);
+
+   console.log(url);
+
    httpGetAsync("/snippet", function(response) {
       snippetBox.value = response;
       snippetBox.focus();
       snippetBox.scrollTop = 0;
-      console.log("Scroll height: " + snippetBox.scrollHeight);
       setGoButtonState(true);
    });
 
-   // Convenience function.
+   // Convenience function: advances the cursor highlight by n characters.
    var advance = function(n) {
       for (var i = 0; i < n; i++) {
          currentCharCode = snippetBox.value.charCodeAt(snippetBox.__cursorPos);
 
          // if we match a newline or CR, advance the scroll bar
          if (currentCharCode === 13 || currentCharCode === 10) {
-            snippetBox.scrollTop = snippetBox.scrollTop + 20;
+            // Hack for now: scroll 20 pixels down. In the future, 
+            // this should be a proper calculation based on the number of rows
+            // and scrollHeight.
+            snippetBox.scrollTop = snippetBox.scrollTop + computeLineHeight();
          }
 
          snippetBox.__cursorPos = snippetBox.__cursorPos + 1;
       }
    };
+
+   // Convenience function: computes the pixel height per line of text.
+   var computeLineHeight = function() {
+      var matches = snippetBox.value.match(/\n/g) || ["dummy"];
+      return snippetBox.scrollHeight / matches.length;
+   }
 
    snippetBox.onkeypress = function(event) {
       var currentCharCode = snippetBox.value.charCodeAt(snippetBox.__cursorPos);
@@ -72,7 +87,7 @@ function loadCodeSnippet() {
 }
 
 function setGoButtonState(flag) {
-   document.getElementById("GoButton").disabled = !flag;
+   document.getElementById("goButton").disabled = !flag;
 }
 
 /**

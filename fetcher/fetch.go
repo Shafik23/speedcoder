@@ -1,14 +1,15 @@
 package fetcher
 
 import (
+	"appengine"
+	"appengine/urlfetch"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"math/rand"
 	"net/http"
+	urlkit "net/url"
 	"strings"
-	"appengine"
-	"appengine/urlfetch"
 )
 
 const (
@@ -22,8 +23,7 @@ func GetCodeSnippet(req *http.Request, keyword string, lang string, min_loc int,
 	c := appengine.NewContext(req)
 	client := urlfetch.Client(c)
 
-	url := fmt.Sprintf(codesearch_url_template, keyword, lang, min_loc, max_loc)
-	url = strings.Replace(url, " ", "%20", -1)
+	url := fmt.Sprintf(codesearch_url_template, urlkit.QueryEscape(keyword), urlkit.QueryEscape(lang), min_loc, max_loc)
 
 	fmt.Printf("Language is %s, Keyword is %s\n", lang, keyword)
 	fmt.Println("Reading from: ", url)
@@ -38,7 +38,7 @@ func GetCodeSnippet(req *http.Request, keyword string, lang string, min_loc int,
 		results := json_map["results"].([]interface{})
 
 		if len(results) == 0 {
-			return fmt.Sprintf("Could not find code snippet for language: %q and keyword(s) %q\n", lang, keyword);
+			return fmt.Sprintf("Could not find code snippet for language: %q and keyword(s) %q\n", lang, keyword)
 		}
 
 		result := results[rand.Intn(len(results))].(map[string]interface{})
