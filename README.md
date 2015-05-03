@@ -7,3 +7,6 @@ of your choosing.
 
 # Dependencies:
 1. GoAppEngine: https://cloud.google.com/appengine/docs/go/
+
+
+See LICENSE.md for license details.
