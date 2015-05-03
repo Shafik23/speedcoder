@@ -11,15 +11,12 @@ function loadCodeSnippet() {
 
    // Grab a raw-text code snippet.
    setGoButtonState(false);
-   snippetBox.value = "Please wait while we fetch your code snippet ...";
+   snippetBox.value = "Please wait while we fetch your " + document.getElementById("langSelectMenu").value + " code snippet ...";
 
-   var url = "/snippet?lang=" + document.getElementById("langSelectMenu").value +
-             "&keyword=" + document.getElementById("keywordInput").value;
-   url = encodeURI(url);
+   var url = "/snippet/?lang=" + encodeURIComponent(document.getElementById("langSelectMenu").value) +
+             "&keyword=" + encodeURIComponent(document.getElementById("keywordInput").value);
 
-   console.log(url);
-
-   httpGetAsync("/snippet", function(response) {
+   httpGetAsync(url, function(response) {
       snippetBox.value = response;
       snippetBox.focus();
       snippetBox.scrollTop = 0;

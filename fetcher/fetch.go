@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	codesearch_url_template = "https://searchcode.com/api/codesearch_I/?q=%s lang:%s &loc=%d&loc2=%d"
+	codesearch_url_template = "https://searchcode.com/api/codesearch_I/?q=%s%%20lang:%s&loc=%d&loc2=%d"
 )
 
 // Given a keyword, a programming language, and a min/max loc, returns

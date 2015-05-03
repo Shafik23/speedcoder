@@ -4,22 +4,50 @@
       <link rel="stylesheet" href="scripts/gui.css">
 
       <body onload=""> 
+         <center><h2> <font color="#39ff30"> SpeedCoder </font> </h2></center>
          <div id="codeSnippetDiv">
-            <textarea id="codeSnippetArea" rows="25" cols="90" readonly> Choose a language and keyword(s) and hit Go!
+            <textarea id="codeSnippetArea" rows="25" cols="90" readonly> 
+               - Choose a language and enter keyword(s) and hit Go!
+               - Once the code snippet loads, start typing what you see on the screen. 
+               - Press ESC to fast-forward through boring parts of the code snippet.
+               - Use the side scroll-bar to adjust your viewing window.
+
+               - Enjoy!
             </textarea>
          </div>
 
          <br><br>
 
-         <form name="paramForm">
+         <center>
+         <form name="paramForm" style="border: solid 1px #000000">
             Language: &nbsp
             <select id="langSelectMenu" class="styled-form">
                <option value="python">Python</option>
                <option value="java">Java</option>
                <option value="javascript">JavaScript</option>
-               <option value="clojure">Clojure</option>
+               <option value="go">Go(lang)</option>
+               <option value="rust">Rust</option>
                <option value="c">C</option>
-               <option value="cpp">C++</option>
+               <option value="c++">C++</option>
+               <option value="clojure">Clojure</option>
+               <option value="lisp">LISP</option>
+               <option value="haskell">Haskell</option>
+               <option value="erlang">Erlang</option>
+               <option value="lua">Lua</option>
+               <option value="ruby">Ruby</option>
+               <option value="ocaml">OCaml</option>
+               <option value="html">HTML</option>
+               <option value="swift">Swift</option>
+               <option value="qml">QML</option>
+               <option value="dart">Dart</option>
+               <option value="visualbasic">Visual Basic</option>
+               <option value="bourneagainshell">Bourne Again Shell</option>
+               <option value="scala">Scala</option>
+               <option value="ada">Ada</option>
+               <option value="sql">SQL</option>
+               <option value="vimscript">VimScript</option>
+               <option value="assembly">Assembly</option>
+               <option value="">(random)</option>
             </select>
 
             &nbsp Keyword(s): &nbsp
@@ -29,6 +57,8 @@
                    onclick="loadCodeSnippet()"/>
             
          </form>
+         </center>
+
       </body>
 
    </head>

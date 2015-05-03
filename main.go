@@ -1,12 +1,18 @@
 package speedcoder
 
 import (
+	"appengine"
 	"fetcher"
 	"fmt"
 	"io/ioutil"
 	"math/rand"
 	"net/http"
 	"time"
+)
+
+const (
+	min_length = 100
+	max_length = 500
 )
 
 func init() {
@@ -20,7 +26,14 @@ func init() {
 }
 
 func snippetHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, fetcher.GetCodeSnippet(r, "json", "python", 200, 300))
+	c := appengine.NewContext(r)
+
+	lang := r.FormValue("lang")
+	keyword := r.FormValue("keyword")
+
+	c.Debugf("(lang, keyword) == (%v, %v)", lang, keyword)
+
+	fmt.Fprint(w, fetcher.GetCodeSnippet(r, keyword, lang, min_length, max_length))
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
